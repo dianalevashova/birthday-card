@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>З Днем Народження</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Work+Sans:wght@400;500&display=swap');
@@ -17,18 +18,20 @@
     --smoke: rgba(245, 234, 217, 0.35);
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   html, body {
     margin: 0;
     min-height: 100%;
+    min-height: 100dvh;
     background: radial-gradient(ellipse at 50% 20%, #3a2333 0%, #241420 70%);
     font-family: 'Work Sans', sans-serif;
     color: var(--cream);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 32px 16px;
+    padding: clamp(16px, 5vw, 32px) clamp(12px, 4vw, 16px);
+    overflow-x: hidden;
   }
 
   .card {
@@ -36,8 +39,8 @@
     max-width: 420px;
     background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
     border-radius: 18px;
-    padding: 40px 32px 32px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05);
+    padding: clamp(28px, 8vw, 40px) clamp(20px, 6vw, 32px) clamp(24px, 6vw, 32px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05);
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -52,7 +55,7 @@
   }
 
   .to-line {
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 0.02em;
     color: var(--gold-soft);
     margin-bottom: 4px;
@@ -61,7 +64,7 @@
   .name {
     font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 28px;
+    font-size: clamp(22px, 7vw, 28px);
     color: var(--cream);
     outline: none;
     border-bottom: 1px dashed rgba(245,234,217,0.3);
@@ -69,31 +72,32 @@
     cursor: text;
     display: inline-block;
     min-width: 60px;
+    max-width: 100%;
+    word-break: break-word;
   }
   .name:focus { border-bottom-color: var(--gold); }
 
-  .hint {
-    font-size: 12px;
-    color: rgba(245,234,217,0.45);
-    margin-top: 6px;
-    margin-bottom: 28px;
-  }
-
   .cake-wrap {
     position: relative;
-    height: 170px;
+    height: clamp(130px, 38vw, 170px);
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    margin-bottom: 18px;
+    margin: 20px 0 18px;
   }
 
-  svg { display: block; }
+  svg { display: block; width: 100%; height: 100%; max-width: 220px; }
+
+  /* larger invisible tap area around each flame for thumbs */
+  .tap-zone {
+    fill: transparent;
+    cursor: pointer;
+  }
 
   .flame {
     transform-origin: center bottom;
     animation: flicker 1.6s ease-in-out infinite;
-    cursor: pointer;
+    pointer-events: none;
     transition: opacity 0.3s ease;
   }
   .flame.out { opacity: 0; animation: none; }
@@ -118,7 +122,7 @@
   .instruction {
     font-size: 13px;
     color: rgba(245,234,217,0.55);
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     min-height: 18px;
   }
 
@@ -134,18 +138,20 @@
   }
 
   .message p {
-    font-size: 15.5px;
+    font-size: clamp(14.5px, 4vw, 15.5px);
     line-height: 1.65;
     color: var(--cream);
     margin: 0 0 14px;
+    text-align: left;
   }
 
   .signoff {
     font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 18px;
+    font-size: clamp(16px, 4.5vw, 18px);
     color: var(--gold-soft);
     margin-top: 8px;
+    text-align: center;
   }
 
   .confetti {
@@ -156,6 +162,7 @@
     opacity: 0.9;
     pointer-events: none;
     border-radius: 2px;
+    will-change: transform, opacity;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -171,7 +178,7 @@
   <div class="name" contenteditable="true" spellcheck="false">Дарини</div>
 
   <div class="cake-wrap">
-    <svg viewBox="0 0 220 170" width="220" height="170">
+    <svg viewBox="0 0 220 170" preserveAspectRatio="xMidYMax meet">
       <!-- plate -->
       <ellipse cx="110" cy="158" rx="90" ry="8" fill="#1c1018" opacity="0.5"/>
       <!-- cake base -->
@@ -194,6 +201,7 @@
         <g class="smoke" data-smoke="1">
           <path d="M83 46 q-4 -6 0 -12" stroke="rgba(245,234,217,0.5)" stroke-width="3" fill="none" stroke-linecap="round"/>
         </g>
+        <circle class="tap-zone" data-candle-zone="1" cx="83" cy="46" r="16"/>
       </g>
 
       <g id="candle2">
@@ -205,6 +213,7 @@
         <g class="smoke" data-smoke="2">
           <path d="M110 39 q-4 -6 0 -12" stroke="rgba(245,234,217,0.5)" stroke-width="3" fill="none" stroke-linecap="round"/>
         </g>
+        <circle class="tap-zone" data-candle-zone="2" cx="110" cy="39" r="16"/>
       </g>
 
       <g id="candle3">
@@ -216,36 +225,36 @@
         <g class="smoke" data-smoke="3">
           <path d="M137 46 q-4 -6 0 -12" stroke="rgba(245,234,217,0.5)" stroke-width="3" fill="none" stroke-linecap="round"/>
         </g>
+        <circle class="tap-zone" data-candle-zone="3" cx="137" cy="46" r="16"/>
       </g>
     </svg>
   </div>
 
-  <div class="instruction" id="instruction">Задуй свічки (клікни на кожну)</div>
+  <div class="instruction" id="instruction">Задуй свічки (торкнись кожної)</div>
 
   <div class="message" id="message">
-    <p>Нехай цей день народження стане початком по-справжньому теплого року - з силами на все задумане, з людьми поруч, які підтримують, і моментами, які хочеться запам'ятати.</p>
-    <p>Бажаю тобі здоров'я, натхнення й легкості в справах, а ще - трохи більше приводів усміхатися просто так.</p>
+    <p>Нехай цей день народження стане початком по-справжньому теплого року — з силами на все задумане, з людьми поруч, які підтримують, і моментами, які хочеться запам'ятати.</p>
+    <p>Бажаю тобі здоров'я, натхнення й легкості в справах, а ще — трохи більше приводів усміхатися просто так.</p>
     <div class="signoff">З любов'ю та найкращими побажаннями 🎂</div>
   </div>
 </div>
 
 <script>
-  const flames = document.querySelectorAll('.flame');
-  const smokes = document.querySelectorAll('.smoke');
+  const tapZones = document.querySelectorAll('.tap-zone');
   const instruction = document.getElementById('instruction');
   const message = document.getElementById('message');
   let blownCount = 0;
-  const total = flames.length;
+  const total = tapZones.length;
 
-  flames.forEach(flame => {
-    flame.addEventListener('click', () => {
-      if (flame.classList.contains('out')) return;
+  tapZones.forEach(zone => {
+    zone.addEventListener('click', () => {
+      const id = zone.getAttribute('data-candle-zone');
+      const flame = document.querySelector('.flame[data-candle="' + id + '"]');
+      if (!flame || flame.classList.contains('out')) return;
       flame.classList.add('out');
-      const id = flame.getAttribute('data-candle');
       const smoke = document.querySelector('[data-smoke="' + id + '"]');
-      if (smoke) {
-        smoke.classList.add('show');
-      }
+      if (smoke) smoke.classList.add('show');
+
       blownCount++;
       if (blownCount < total) {
         instruction.textContent = 'Ще ' + (total - blownCount) + ' 🕯️...';
